@@ -1,4 +1,5 @@
 Pithy-formula
+
 口诀生成器
 
 Function: Convert long passages into recipes to facilitate memory, and divide them into "sequential edition", "self-comparison edition" and "same edition".
