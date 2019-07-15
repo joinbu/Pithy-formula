@@ -1,48 +1,49 @@
 ﻿import pandas as pd
 
 #####数值输入######
-# 输入数值 input words
+# 输入正确数值 input right words
 R = pd.DataFrame([
-    'ABCD',
-    'DEF',
-    'FG'
+    'True1',
+    'True2',
+    'True3'
  ])
 
+#输入错误数值 input false words
 F = pd.DataFrame([
-    'An',
-    'B'
+    'False1',
+    'False2'
  ])
 
-R_constant = R.copy()   #必须使用.copy，否则R与R_constant会联动
+R_constant = R.copy()   #必须使用.copy，否则R与R_constant会联动,We must use‘.copy’，or ‘R_constant’is always equal to ‘R’.
 R_sequential = R.copy()
 R_self_comparison = R.copy()
 
-R_len = len(R)  #3, R的长度
+R_len = len(R)  #R的长度，length of R
 
-F_constant = F.copy()   #必须使用.copy，否则R与R_constant会联动
-F_len = len(F)  #3, R的长度
+F_constant = F.copy()
+F_len = len(F)  #F的长度，length of F
 
 
 for r in range(0,R_len):
-    #####将其他连接connet#####
     R_sequential_mix = ""
     R_self_comparison_mix = ""
 
     for j in range(0,R_len):
-        #####连接错误项#####
+        #####连接sequential错误项F#####
         if j == R_len-1:
             for x in range(0,F_len):
                 R_sequential_mix = ''.join([R_sequential_mix, F_constant[0][x]])
 
-        #####连接错误项#####
+        #####连接self_comparison错误项F#####
         if j == R_len - 1:
             for x in range(0, F_len):
                 R_self_comparison_mix = ''.join([R_self_comparison_mix, F_constant[0][x]])
 
-
+        #####连接sequential干扰项R#####
         if j > r:
             R_sequential_mix= ''.join([R_sequential_mix,R_constant[0][j]])
 
+        #####连接self_comparison干扰项R#####
         if j != r:
             R_self_comparison_mix= ''.join([R_self_comparison_mix,R_constant[0][j]])
 
@@ -63,29 +64,33 @@ print(R_sequential)
 print('##########自比版##########')
 print(R_self_comparison)
 
-
+#定义“同比版”的公式，define formula of two text sets’comparison edition
 def two_text(R,F):
-    F_len = len(F)
+    R_two = R.copy()
+    F_two = F.copy()
+
+
+    F_len = len(F_two)
     F_two_text = ''
     for i in range(0, F_len):
-        F_two_text = ''.join([F_two_text, F[0][i]])
+        F_two_text = ''.join([F_two_text, F_two[0][i]])
 
-    l = len(R)  #获取正确数值个数 get right words'count
+    R_len = len(R_two)  #获取正确数值个数 get right words'count
 
 
     #####删除错误数据 raplace faulse words in right words#####
-    for j in range(0,l):
-        for i in R[0][j]:
+    for j in range(0,R_len):
+        for i in R_two[0][j]:
             if i in F_two_text:
-                R[0][j] = R[0][j].replace(i,"")
+                R_two[0][j] = R_two[0][j].replace(i,"")
 
     print("*删除错误数据*")
-    print(R)
+    print(R_two)
 
     #####将正确数值连接connet#####
     Rmix = ""
-    for j in range(0,l):
-        Rmix= ''.join([Rmix,R[0][j]])
+    for j in range(0,R_len):
+        Rmix= ''.join([Rmix,R_two[0][j]])
 
     #统计个数并转换为dataframe；Statistics and change into dataframe#####
     count={}
@@ -106,21 +111,21 @@ def two_text(R,F):
     #####取出频率最高的单字符串取代词语#####
 
 
-    for j in range(0,l):
+    for j in range(0,R_len):
         for i in range(0,m):
             jx = Count.index[i]
-            if jx in R[0][j]:
-                R[0][j] = jx
+            if jx in R_two[0][j]:
+                R_two[0][j] = jx
                 break
 
     print("*精简*")
-    print(R)
+    print(R_two)
 
     #####精密合并######
 
     Rmix2 = ""
-    for j in range(0,l):
-        Rmix2= ''.join([Rmix2,R[0][j]])
+    for j in range(0,R_len):
+        Rmix2= ''.join([Rmix2,R_two[0][j]])
 
     ##除重##
 
@@ -132,9 +137,9 @@ def two_text(R,F):
     Count2 = pd.DataFrame.from_dict(count2, orient='index', columns=['count'])
 
     ##除重后合并##
-    l = len(Count2)
+    R_len = len(Count2)
     Rmix3 = ""
-    for j in range(0,l):
+    for j in range(0,R_len):
         Rmix3= ''.join([Rmix3,Count2.index[j]])
 
     print("*除重*")
