@@ -15,14 +15,13 @@ F = pd.DataFrame([
  ])
 
 R_constant = R.copy()   #必须使用.copy，否则R与R_constant会联动,We must use‘.copy’，or ‘R_constant’is always equal to ‘R’.
-R_sequential = R.copy()
-R_self_comparison = R.copy()
-
 R_len = len(R)  #R的长度，length of R
 
 F_constant = F.copy()
 F_len = len(F)  #F的长度，length of F
 
+R_sequential = R.copy()
+R_self_comparison = R.copy()
 
 for r in range(0,R_len):
     R_sequential_mix = ""  #用于储存顺序版中的干扰项和错误项
@@ -58,10 +57,10 @@ for r in range(0,R_len):
         if i in R_self_comparison_mix:
             R_self_comparison[0][r] = R_self_comparison[0][r].replace(i,"")
 
-print('##########顺序版##########')
+print('     ##########顺序版##########')
 print(R_sequential)
 
-print('##########自比版##########')
+print('     ##########自比版##########')
 print(R_self_comparison)
 
 #定义“同比版”的公式，define formula of two text sets’comparison edition
@@ -69,14 +68,12 @@ def two_text(R,F):
     R_two = R.copy()
     F_two = F.copy()
 
-
     F_len = len(F_two)
     F_two_text = ''
     for i in range(0, F_len):
         F_two_text = ''.join([F_two_text, F_two[0][i]])
 
     R_len = len(R_two)  #获取正确数值个数 get right words'count
-
 
     #####删除错误数据 raplace faulse words in right words#####
     for j in range(0,R_len):
@@ -109,8 +106,6 @@ def two_text(R,F):
     m = len(Count)  #正确个数长度
 
     #####取出频率最高的单字符串取代词语#####
-
-
     for j in range(0,R_len):
         for i in range(0,m):
             jx = Count.index[i]
@@ -145,7 +140,7 @@ def two_text(R,F):
     print("*除重*")
     print(Rmix3)
 
-print('##########同比版正向##########')
+print('     ########同比版正向########')
 two_text(R,F)
-print('##########同比版反向##########')
+print('     ########同比版反向########')
 two_text(F,R)
