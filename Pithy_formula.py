@@ -25,35 +25,35 @@ F_len = len(F)  #F的长度，length of F
 
 
 for r in range(0,R_len):
-    R_sequential_mix = ""
-    R_self_comparison_mix = ""
+    R_sequential_mix = ""  #用于储存顺序版中的干扰项和错误项
+    R_self_comparison_mix = ""  #用于储存自比版中的干扰项和错误项
 
     for j in range(0,R_len):
-        #####连接sequential错误项F#####
+        #####连接顺序版错误项F#####
         if j == R_len-1:
             for x in range(0,F_len):
                 R_sequential_mix = ''.join([R_sequential_mix, F_constant[0][x]])
 
-        #####连接self_comparison错误项F#####
+        #####连接自比版错误项F#####
         if j == R_len - 1:
             for x in range(0, F_len):
                 R_self_comparison_mix = ''.join([R_self_comparison_mix, F_constant[0][x]])
 
-        #####连接sequential干扰项R#####
+        #####连接顺序版干扰项R#####
         if j > r:
             R_sequential_mix= ''.join([R_sequential_mix,R_constant[0][j]])
 
-        #####连接self_comparison干扰项R#####
+        #####连接自比版干扰项R#####
         if j != r:
             R_self_comparison_mix= ''.join([R_self_comparison_mix,R_constant[0][j]])
 
 
-    #####删除错误数据 raplace faulse words in right words#####
+    #####删除错误数据 raplace false words in right words#####
     for i in R_sequential[0][r]:
         if i in R_sequential_mix:
             R_sequential[0][r] = R_sequential[0][r].replace(i,"")
 
-    #####删除错误数据 raplace faulse words in right words#####
+    #####删除错误数据 raplace false words in right words#####
     for i in R_self_comparison[0][r]:
         if i in R_self_comparison_mix:
             R_self_comparison[0][r] = R_self_comparison[0][r].replace(i,"")
